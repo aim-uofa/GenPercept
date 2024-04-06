@@ -6,14 +6,14 @@
 [Yongtao Ge](https://yongtaoge.github.io/), &nbsp; 
 [Mingyu Liu](https://mingyulau.github.io/), &nbsp;
 [Chengxiang Fan](https://leaf1170124460.github.io/), &nbsp;
-[Kangyang Xie](), &nbsp;
-[Zhiyue Zhao](), &nbsp;
+[Kangyang Xie](https://github.com/felix-ky), &nbsp;
+[Zhiyue Zhao](https://github.com/ZhiyueZhau), &nbsp;
 [Hao Chen](https://stan-haochen.github.io/), &nbsp;
 [Chunhua Shen](https://cshen.github.io/), &nbsp;
 
 Zhejiang University
 
-### [HuggingFace]() | [arXiv](https://arxiv.org/abs/2403.06090)
+### [HuggingFace](https://huggingface.co/spaces/guangkaixu/GenPercept) | [arXiv](https://arxiv.org/abs/2403.06090)
 
 #### 🔥 Fine-tune diffusion models for perception tasks, and inference with only one step! ✈️
 
