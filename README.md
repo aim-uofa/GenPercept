@@ -20,7 +20,7 @@ Zhejiang University
 </div>
 
 <div align="center">
-<img width="800" alt="image" src="figs/pipeline.png">
+<img width="800" alt="image" src="figs/pipeline.jpg">
 </div>
 
 ##  Dependencies
@@ -54,25 +54,25 @@ Thanks to our one-step perception paradigm, the inference process runs much fast
 ### Depth and Surface Normal
 
 <div align="center">
-<img width="800" alt="image" src="figs/demo_depth_normal.png">
+<img width="800" alt="image" src="figs/demo_depth_normal.jpg">
 </div>
 
 ### Dichotomous Image Segmentation
 
 <div align="center">
-<img width="400" alt="image" src="figs/demo_dis.png">
+<img width="400" alt="image" src="figs/demo_dis.jpg">
 </div>
 
 ### Image Matting
 
 <div align="center">
-<img width="800" alt="image" src="figs/demo_matting.png">
+<img width="800" alt="image" src="figs/demo_matting.jpg">
 </div>
 
 ### Human Pose Estimation
 
 <div align="center">
-<img width="800" alt="image" src="figs/demo_keypoint.png">
+<img width="800" alt="image" src="figs/demo_keypoint.jpg">
 </div>
 
 ## 🎫 License
