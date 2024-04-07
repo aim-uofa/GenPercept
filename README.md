@@ -34,7 +34,9 @@ pip install -e .
 
 ## Inference
 
-Place images in the ```./input/``` dictionary, and run the following script. The output depth will be saved in ```./output/```.
+Download the pre-trained depth model ```depth_v1.zip``` from [BaiduNetDisk](https://pan.baidu.com/s/11JUKU3W1rUqQiQ649Ieb7A?pwd=z938) (Extract code: z938) or [Rec Cloud Disk](https://rec.ustc.edu.cn/share/0ac5fb60-f4be-11ee-a23c-29229a5c4bc4). Put the package under ```./weights/``` and unzip it, the checkpoint will be stored under ```./weights/depth_v1/```.
+
+Then, place images in the ```./input/``` dictionary, and run the following script. The output depth will be saved in ```./output/```.
 ```bash
 source scripts/inference_depth.sh
 ```
