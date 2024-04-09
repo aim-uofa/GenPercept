@@ -38,7 +38,12 @@ Download the pre-trained depth model ```depth_v1.zip``` from [BaiduNetDisk](http
 
 Then, place images in the ```./input/``` dictionary, and run the following script. The output depth will be saved in ```./output/```.
 ```bash
-source scripts/inference_depth.sh
+sh scripts/inference_depth.sh
+```
+
+For surface normal estimation, run the following script:
+```bash
+bash scripts/inference_normal.sh
 ```
 
 Thanks to our one-step perception paradigm, the inference process runs much faster. (Around 0.4s for each image on an A800 GPU card.)
