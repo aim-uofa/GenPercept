@@ -23,7 +23,14 @@ Zhejiang University
 <img width="800" alt="image" src="figs/pipeline.jpg">
 </div>
 
-##  Dependencies
+
+##  📢 News
+- 2024.3.10: Release [arXiv v1 paper](https://arxiv.org/abs/2403.06090v1).
+- 2024.3.15: Release [arXiv v2 paper](https://arxiv.org/abs/2403.06090v2), with supplementary material.
+- 2024.4.6:  Release inference code and depth checkpoint weight of GenPercept in the [GitHub](https://github.com/aim-uofa/GenPercept) repo.
+- 2024.4.7:  Add [HuggingFace](https://huggingface.co/spaces/guangkaixu/GenPercept) App demo. 
+
+##  🖥️ Dependencies
 
 ```bash
 conda create -n genpercept python=3.10
@@ -32,7 +39,7 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-## Inference
+## 🚀 Inference
 
 Download the pre-trained depth model ```depth_v1.zip``` from [BaiduNetDisk](https://pan.baidu.com/s/11JUKU3W1rUqQiQ649Ieb7A?pwd=z938) (Extract code: z938) or [Rec Cloud Disk](https://rec.ustc.edu.cn/share/0ac5fb60-f4be-11ee-a23c-29229a5c4bc4). Put the package under ```./weights/``` and unzip it, the checkpoint will be stored under ```./weights/depth_v1/```.
 
@@ -48,13 +55,13 @@ bash scripts/inference_normal.sh
 
 Thanks to our one-step perception paradigm, the inference process runs much faster. (Around 0.4s for each image on an A800 GPU card.)
 
-## Recommanded Works
+## 📖 Recommanded Works
 
 - Marigold: Repurposing Diffusion-Based Image Generators for Monocular Depth Estimation. [arXiv](https://github.com/prs-eth/marigold), [GitHub](https://github.com/prs-eth/marigold).
 - GeoWizard: Unleashing the Diffusion Priors for 3D Geometry Estimation from a Single Image. [arXiv](https://arxiv.org/abs/2403.12013), [GitHub](https://github.com/fuxiao0719/GeoWizard).
 - FrozenRecon: Pose-free 3D Scene Reconstruction with Frozen Depth Models. [arXiv](https://arxiv.org/abs/2308.05733), [GitHub](https://github.com/aim-uofa/FrozenRecon).
 
-## Results in Paper
+## 🏅 Results in Paper
 
 ### Depth and Surface Normal
 
@@ -85,7 +92,7 @@ Thanks to our one-step perception paradigm, the inference process runs much fast
 For non-commercial use, this code is released under the [LICENSE](LICENSE).
 For commercial use, please contact Chunhua Shen.
 
-## 🖊️ Citation
+## 🎓 Citation
 ```
 @article{xu2024diffusion,
   title={Diffusion Models Trained with Large Data Are Transferable Visual Models},
