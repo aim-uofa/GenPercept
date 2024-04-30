@@ -224,7 +224,10 @@ if "__main__" == __name__:
     unet = CustomUNet2DConditionModel.from_config(
         unet_ckpt_path, subfolder="unet", revision=args.non_ema_revision
     )
-    load_ckpt_unet = safetensors.torch.load_file(osp.join(unet_ckpt_path, 'unet', 'diffusion_pytorch_model.safetensors'))
+    try:
+        load_ckpt_unet = safetensors.torch.load_file(osp.join(unet_ckpt_path, 'unet', 'diffusion_pytorch_model.safetensors'))
+    except:
+        load_ckpt_unet = safetensors.torch.load_file(osp.join(unet_ckpt_path, 'diffusion_pytorch_model.safetensors'))
     if not any('conv_out' in key for key in load_ckpt_unet.keys()):
         unet.conv_out = None
     if not any('conv_norm_out' in key for key in load_ckpt_unet.keys()):
@@ -319,7 +322,10 @@ if "__main__" == __name__:
                 output_save_path_rgb = os.path.join(
                     output_dir_rgb, f"{rgb_name_base}.png"
                 )
-                input_image.save(output_save_path_rgb)
+                try:
+                    input_image.save(output_save_path_rgb)
+                except:
+                    cv2.imwrite(output_save_path_rgb, rgb_img[:, :, ::-1])
 
             elif args.mode == 'seg':
                 seg_colored: Image.Image = pipe_out.pred_colored
@@ -334,8 +340,9 @@ if "__main__" == __name__:
                         f"Existing file: '{colored_save_path}' will be overwritten"
                     )
 
-                seg_res = Image.fromarray(np.concatenate([np.array(input_image), np.array(seg_colored)],axis=1))
-                seg_res.save(colored_save_path)
+                # seg_res = Image.fromarray(np.concatenate([np.array(input_image), np.array(seg_colored)],axis=1))
+                # seg_res.save(colored_save_path)
+                seg_colored.save(colored_save_path)
             elif args.mode == 'normal':
                 normal_colored: Image.Image = pipe_out.pred_colored
                 rgb_name_base = os.path.splitext(os.path.basename(rgb_path))[0]
