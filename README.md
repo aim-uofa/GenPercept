@@ -34,16 +34,18 @@ pip install -e .
 
 ## Inference
 
-Download the pre-trained depth model ```depth_v1.zip``` from [BaiduNetDisk](https://pan.baidu.com/s/11JUKU3W1rUqQiQ649Ieb7A?pwd=z938) (Extract code: z938) or [Rec Cloud Disk](https://rec.ustc.edu.cn/share/0ac5fb60-f4be-11ee-a23c-29229a5c4bc4). Put the package under ```./weights/``` and unzip it, the checkpoint will be stored under ```./weights/depth_v1/```.
+Download the pre-trained models ```genpercept_ckpt_v1.zip``` from [BaiduNetDisk](https://pan.baidu.com/s/1n6FlqrOTZqHX-F6OhcvNyA?pwd=g2cm) (Extract code: g2cm) or [Rec Cloud Disk (To be uploaded)](). Please unzip the package and put the checkpoints under ```./weights/v1/```.
 
-Then, place images in the ```./input/``` dictionary, and run the following script. The output depth will be saved in ```./output/```.
+Then, place images in the ```./input/$TASK_TYPE``` dictionary, and run the following script. The output depth will be saved in ```./output/$TASK_TYPE```. The ```$TASK_TYPE``` can be chosen from ```depth```, ```normal```, and ```dis```.
 ```bash
 sh scripts/inference_depth.sh
 ```
 
-For surface normal estimation, run the following script:
+For surface normal estimation and dichotomous image segmentation
+, run the following script:
 ```bash
 bash scripts/inference_normal.sh
+bash scripts/inference_dis.sh
 ```
 
 Thanks to our one-step perception paradigm, the inference process runs much faster. (Around 0.4s for each image on an A800 GPU card.)
