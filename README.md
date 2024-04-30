@@ -13,7 +13,7 @@
 
 Zhejiang University
 
-### [HuggingFace](https://huggingface.co/spaces/guangkaixu/GenPercept) | [arXiv](https://arxiv.org/abs/2403.06090)
+### [HuggingFace (Space)](https://huggingface.co/spaces/guangkaixu/GenPercept) | [HuggingFace (Model)](https://huggingface.co/guangkaixu/GenPercept) | [arXiv](https://arxiv.org/abs/2403.06090)
 
 #### 🔥 Fine-tune diffusion models for perception tasks, and inference with only one step! ✈️
 
