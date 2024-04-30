@@ -25,10 +25,12 @@ Zhejiang University
 
 
 ##  📢 News
-- 2024.3.10: Release [arXiv v1 paper](https://arxiv.org/abs/2403.06090v1).
-- 2024.3.15: Release [arXiv v2 paper](https://arxiv.org/abs/2403.06090v2), with supplementary material.
-- 2024.4.6:  Release inference code and depth checkpoint weight of GenPercept in the [GitHub](https://github.com/aim-uofa/GenPercept) repo.
+- 2024.4.30: Release checkpoint weights of surface normal and dichotomous image segmentation.
 - 2024.4.7:  Add [HuggingFace](https://huggingface.co/spaces/guangkaixu/GenPercept) App demo. 
+- 2024.4.6:  Release inference code and depth checkpoint weight of GenPercept in the [GitHub](https://github.com/aim-uofa/GenPercept) repo.
+- 2024.3.15: Release [arXiv v2 paper](https://arxiv.org/abs/2403.06090v2), with supplementary material.
+- 2024.3.10: Release [arXiv v1 paper](https://arxiv.org/abs/2403.06090v1).
+
 
 ##  🖥️ Dependencies
 
