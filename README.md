@@ -42,7 +42,7 @@ pip install -e .
 ```
 
 ## 🚀 Inference
-
+### Using Command-line Scripts
 Download the pre-trained models ```genpercept_ckpt_v1.zip``` from [BaiduNetDisk](https://pan.baidu.com/s/1n6FlqrOTZqHX-F6OhcvNyA?pwd=g2cm) (Extract code: g2cm), [HuggingFace](https://huggingface.co/guangkaixu/GenPercept), or [Rec Cloud Disk (To be uploaded)](). Please unzip the package and put the checkpoints under ```./weights/v1/```.
 
 Then, place images in the ```./input/$TASK_TYPE``` dictionary, and run the following script. The output depth will be saved in ```./output/$TASK_TYPE```. The ```$TASK_TYPE``` can be chosen from ```depth```, ```normal```, and ```dis```.
@@ -58,6 +58,32 @@ bash scripts/inference_dis.sh
 ```
 
 Thanks to our one-step perception paradigm, the inference process runs much faster. (Around 0.4s for each image on an A800 GPU card.)
+
+### Using torch.hub
+```
+import torch
+import cv2
+import numpy as np
+
+# Load the normal predictor model from torch hub
+normal_predictor = torch.hub.load("hugoycj/GenPercept-hub", "GenPercept_Normal", trust_repo=True)
+
+# Load the input image using OpenCV
+image = cv2.imread(args.input, cv2.IMREAD_COLOR)
+h, w = image.shape[:2]
+
+# Use the model to infer the normal map from the input image
+with torch.inference_mode():
+    normal = normal_predictor.infer_cv2(image)[0]  # Output shape: (H, W, 3)
+    normal = (normal + 1) / 2  # Convert values to the range [0, 1]
+
+# Convert the normal map to a displayable format
+normal = (normal * 255).cpu().numpy().astype(np.uint8).transpose(1, 2, 0)
+normal = cv2.cvtColor(normal, cv2.COLOR_RGB2BGR)
+
+# Save the output normal map to a file
+cv2.imwrite(args.output, normal)
+```
 
 ## 📖 Recommanded Works
 

@@ -43,7 +43,7 @@ def resize_image(input_image, resolution):
     img = cv2.resize(input_image, (W, H), interpolation=cv2.INTER_LANCZOS4 if k > 1 else cv2.INTER_AREA)
     return img
 
-class Predictor:
+class NormalPredictor:
     def __init__(self, model, device="cuda"):
         self.model = model
         self.device = device
@@ -68,7 +68,7 @@ class Predictor:
             pred_normal = cv2.cvtColor(pred_normal, cv2.COLOR_RGB2BGR)
         return pred_normal
 
-def GenPercept(local_dir: Optional[str] = None, device="cuda", repo_id = "guangkaixu/GenPercept"):
+def GenPercept_Normal(local_dir: Optional[str] = None, device="cuda", repo_id = "guangkaixu/GenPercept"):
     unet_ckpt_path = hf_hub_download(repo_id=repo_id, filename='unet_normal_v1/diffusion_pytorch_model.safetensors', 
                       local_dir=local_dir)
     vae_ckpt_path = hf_hub_download(repo_id=repo_id, filename='vae/diffusion_pytorch_model.safetensors',
@@ -105,7 +105,7 @@ def GenPercept(local_dir: Optional[str] = None, device="cuda", repo_id = "guangk
     normal_predictor = GenPerceptPipeline(**genpercept_params_ckpt)
     normal_predictor = normal_predictor.to(device)
 
-    return Predictor(normal_predictor, device)
+    return NormalPredictor(normal_predictor, device)
 
 def _test_run():
     import argparse
@@ -117,7 +117,7 @@ def _test_run():
     parser.add_argument("--pil", action="store_true", help="use PIL instead of OpenCV")
     args = parser.parse_args()
 
-    predictor = torch.hub.load(".", "GenPercept", local_dir=args.local_dir,
+    predictor = torch.hub.load(".", "GenPercept_Normal", local_dir=args.local_dir,
                                 source="local", trust_repo=True)
 
     if args.pil:
