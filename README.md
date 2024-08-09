@@ -60,7 +60,9 @@ bash scripts/inference_dis.sh
 Thanks to our one-step perception paradigm, the inference process runs much faster. (Around 0.4s for each image on an A800 GPU card.)
 
 ### Using torch.hub
-```
+GenPercept models can be easily used with torch.hub for quick integration into your Python projects. Here's how to use the models for normal estimation, depth estimation, and segmentation:
+#### Normal Estimation
+```python
 import torch
 import cv2
 import numpy as np
@@ -69,20 +71,52 @@ import numpy as np
 normal_predictor = torch.hub.load("hugoycj/GenPercept-hub", "GenPercept_Normal", trust_repo=True)
 
 # Load the input image using OpenCV
-image = cv2.imread(args.input, cv2.IMREAD_COLOR)
-h, w = image.shape[:2]
+image = cv2.imread("path/to/your/image.jpg", cv2.IMREAD_COLOR)
 
 # Use the model to infer the normal map from the input image
 with torch.inference_mode():
-    normal = normal_predictor.infer_cv2(image)[0]  # Output shape: (H, W, 3)
-    normal = (normal + 1) / 2  # Convert values to the range [0, 1]
-
-# Convert the normal map to a displayable format
-normal = (normal * 255).cpu().numpy().astype(np.uint8).transpose(1, 2, 0)
-normal = cv2.cvtColor(normal, cv2.COLOR_RGB2BGR)
+    normal = normal_predictor.infer_cv2(image)
 
 # Save the output normal map to a file
-cv2.imwrite(args.output, normal)
+cv2.imwrite("output_normal_map.png", normal)
+```
+
+#### Depth Estimation
+```python
+import torch
+import cv2
+
+# Load the depth predictor model from torch hub
+depth_predictor = torch.hub.load("hugoycj/GenPercept-hub", "GenPercept_Depth", trust_repo=True)
+
+# Load the input image using OpenCV
+image = cv2.imread("path/to/your/image.jpg", cv2.IMREAD_COLOR)
+
+# Use the model to infer the depth map from the input image
+with torch.inference_mode():
+    depth = depth_predictor.infer_cv2(image)
+
+# Save the output depth map to a file
+cv2.imwrite("output_depth_map.png", depth)
+```
+
+#### Segmentation
+```python
+import torch
+import cv2
+
+# Load the segmentation predictor model from torch hub
+seg_predictor = torch.hub.load("hugoycj/GenPercept-hub", "GenPercept_Segmentation", trust_repo=True)
+
+# Load the input image using OpenCV
+image = cv2.imread("path/to/your/image.jpg", cv2.IMREAD_COLOR)
+
+# Use the model to infer the segmentation map from the input image
+with torch.inference_mode():
+    segmentation = seg_predictor.infer_cv2(image)
+
+# Save the output segmentation map to a file
+cv2.imwrite("output_segmentation_map.png", segmentation)
 ```
 
 ## 📖 Recommanded Works

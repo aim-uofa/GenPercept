@@ -42,8 +42,7 @@ def resize_image(input_image, resolution):
     W = int(np.round(W / 64.0)) * 64
     img = cv2.resize(input_image, (W, H), interpolation=cv2.INTER_LANCZOS4 if k > 1 else cv2.INTER_AREA)
     return img
-
-class NormalPredictor:
+class BasePredictor:
     def __init__(self, model, device="cuda"):
         self.model = model
         self.device = device
@@ -54,6 +53,10 @@ class NormalPredictor:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         return self.infer_pil(Image.fromarray(img))
 
+    def infer_pil(self, image, image_resolution=768):
+        raise NotImplementedError("Subclasses must implement this method")
+
+class NormalPredictor(BasePredictor):
     def infer_pil(self, image, image_resolution=768):
         with torch.no_grad():
             pipe_out = self.model(image,
@@ -68,14 +71,44 @@ class NormalPredictor:
             pred_normal = cv2.cvtColor(pred_normal, cv2.COLOR_RGB2BGR)
         return pred_normal
 
-def GenPercept_Normal(local_dir: Optional[str] = None, device="cuda", repo_id = "guangkaixu/GenPercept"):
-    unet_ckpt_path = hf_hub_download(repo_id=repo_id, filename='unet_normal_v1/diffusion_pytorch_model.safetensors', 
+class DepthPredictor(BasePredictor):
+    def infer_pil(self, image, image_resolution=768):
+        with torch.no_grad():
+            pipe_out = self.model(image,
+                processing_res=image_resolution,
+                match_input_res=True,
+                batch_size=1,
+                color_map="Spectral",
+                show_progress_bar=True,
+                mode='depth',
+            )
+            pred_depth = np.asarray(pipe_out.pred_colored)
+            pred_depth = cv2.cvtColor(pred_depth, cv2.COLOR_RGB2BGR)
+        return pred_depth
+
+class SegmentationPredictor(BasePredictor):
+    def infer_pil(self, image, image_resolution=768):
+        with torch.no_grad():
+            pipe_out = self.model(image,
+                processing_res=image_resolution,
+                match_input_res=True,
+                batch_size=1,
+                color_map="Spectral",
+                show_progress_bar=True,
+                mode='seg',
+            )
+            pred_seg = np.asarray(pipe_out.pred_colored)
+            pred_seg = cv2.cvtColor(pred_seg, cv2.COLOR_RGB2BGR)
+        return pred_seg
+
+def load_model(repo_id, unet_subfolder, device="cuda", local_dir=None):
+    unet_ckpt_path = hf_hub_download(repo_id=repo_id, filename=f'{unet_subfolder}/diffusion_pytorch_model.safetensors', 
                       local_dir=local_dir)
     vae_ckpt_path = hf_hub_download(repo_id=repo_id, filename='vae/diffusion_pytorch_model.safetensors',
                       local_dir=local_dir)
 
     # Load UNet
-    unet = CustomUNet2DConditionModel.from_config(repo_id, subfolder="unet_normal_v1")
+    unet = CustomUNet2DConditionModel.from_config(repo_id, subfolder=unet_subfolder)
     load_ckpt_unet = safetensors.torch.load_file(unet_ckpt_path)
     if not any('conv_out' in key for key in load_ckpt_unet.keys()):
         unet.conv_out = None
@@ -102,10 +135,22 @@ def GenPercept_Normal(local_dir: Optional[str] = None, device="cuda", repo_id = 
         customized_head=None,
     )
 
-    normal_predictor = GenPerceptPipeline(**genpercept_params_ckpt)
-    normal_predictor = normal_predictor.to(device)
+    predictor = GenPerceptPipeline(**genpercept_params_ckpt)
+    predictor = predictor.to(device)
 
-    return NormalPredictor(normal_predictor, device)
+    return predictor
+
+def GenPercept_Normal(local_dir: Optional[str] = None, device="cuda", repo_id = "guangkaixu/GenPercept"):
+    model = load_model(repo_id, "unet_normal_v1", device, local_dir)
+    return NormalPredictor(model, device)
+
+def GenPercept_Depth(local_dir: Optional[str] = None, device="cuda", repo_id = "guangkaixu/GenPercept"):
+    model = load_model(repo_id, "unet_depth_v1", device, local_dir)
+    return DepthPredictor(model, device)
+
+def GenPercept_Segmentation(local_dir: Optional[str] = None, device="cuda", repo_id = "guangkaixu/GenPercept"):
+    model = load_model(repo_id, "unet_dis_v1", device, local_dir)
+    return SegmentationPredictor(model, device)
 
 def _test_run():
     import argparse
@@ -117,7 +162,7 @@ def _test_run():
     parser.add_argument("--pil", action="store_true", help="use PIL instead of OpenCV")
     args = parser.parse_args()
 
-    predictor = torch.hub.load(".", "GenPercept_Normal", local_dir=args.local_dir,
+    predictor = torch.hub.load(".", "GenPercept_Segmentation", local_dir=args.local_dir,
                                 source="local", trust_repo=True)
 
     if args.pil:
