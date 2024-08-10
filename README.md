@@ -93,8 +93,12 @@ Thanks to our one-step perception paradigm, the inference process runs much fast
 
 ## 🎫 License
 
-For non-commercial use, this code is released under the [LICENSE](LICENSE).
-For commercial use, please contact Chunhua Shen.
+
+## 🎫 License
+
+For academic use, this project is licensed under [the 2-clause BSD License](https://opensource.org/license/bsd-2-clause). 
+For commercial use, please contact [Chunhua Shen](chhshen@gmail.com).
+
 
 ## 🎓 Citation
 ```
