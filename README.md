@@ -91,12 +91,10 @@ Thanks to our one-step perception paradigm, the inference process runs much fast
 <img width="800" alt="image" src="figs/demo_keypoint.jpg">
 </div>
 
-## 🎫 License
-
 
 ## 🎫 License
 
-For academic use, this project is licensed under [the 2-clause BSD License](https://opensource.org/license/bsd-2-clause). 
+For non-commercial academic use, this project is licensed under [the 2-clause BSD License](https://opensource.org/license/bsd-2-clause). 
 For commercial use, please contact [Chunhua Shen](chhshen@gmail.com).
 
 
