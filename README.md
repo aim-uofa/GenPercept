@@ -59,6 +59,7 @@ bash scripts/inference_dis.sh
 
 Thanks to our one-step perception paradigm, the inference process runs much faster. (Around 0.4s for each image on an A800 GPU card.)
 
+
 ### Using torch.hub
 GenPercept models can be easily used with torch.hub for quick integration into your Python projects. Here's how to use the models for normal estimation, depth estimation, and segmentation:
 #### Normal Estimation
@@ -124,6 +125,8 @@ cv2.imwrite("output_segmentation_map.png", segmentation)
 - Marigold: Repurposing Diffusion-Based Image Generators for Monocular Depth Estimation. [arXiv](https://github.com/prs-eth/marigold), [GitHub](https://github.com/prs-eth/marigold).
 - GeoWizard: Unleashing the Diffusion Priors for 3D Geometry Estimation from a Single Image. [arXiv](https://arxiv.org/abs/2403.12013), [GitHub](https://github.com/fuxiao0719/GeoWizard).
 - FrozenRecon: Pose-free 3D Scene Reconstruction with Frozen Depth Models. [arXiv](https://arxiv.org/abs/2308.05733), [GitHub](https://github.com/aim-uofa/FrozenRecon).
+=======
+
 
 ## 🏅 Results in Paper
 
@@ -151,10 +154,12 @@ cv2.imwrite("output_segmentation_map.png", segmentation)
 <img width="800" alt="image" src="figs/demo_keypoint.jpg">
 </div>
 
+
 ## 🎫 License
 
-For non-commercial use, this code is released under the [LICENSE](LICENSE).
-For commercial use, please contact Chunhua Shen.
+For non-commercial academic use, this project is licensed under [the 2-clause BSD License](https://opensource.org/license/bsd-2-clause). 
+For commercial use, please contact [Chunhua Shen](mailto:chhshen@gmail.com).
+
 
 ## 🎓 Citation
 ```
@@ -165,3 +170,10 @@ For commercial use, please contact Chunhua Shen.
   year={2024}
 }
 ```
+
+## 📖 Related work
+
+- Marigold: Repurposing Diffusion-Based Image Generators for Monocular Depth Estimation. [arXiv](https://github.com/prs-eth/marigold), [GitHub](https://github.com/prs-eth/marigold).
+- GeoWizard: Unleashing the Diffusion Priors for 3D Geometry Estimation from a Single Image. [arXiv](https://arxiv.org/abs/2403.12013), [GitHub](https://github.com/fuxiao0719/GeoWizard).
+- FrozenRecon: Pose-free 3D Scene Reconstruction with Frozen Depth Models. [arXiv](https://arxiv.org/abs/2308.05733), [GitHub](https://github.com/aim-uofa/FrozenRecon).
+
