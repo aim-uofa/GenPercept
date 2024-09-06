@@ -42,7 +42,7 @@ pip install -e .
 ```
 
 ## 🚀 Inference
-
+### Using Command-line Scripts
 Download the pre-trained models ```genpercept_ckpt_v1.zip``` from [BaiduNetDisk](https://pan.baidu.com/s/1n6FlqrOTZqHX-F6OhcvNyA?pwd=g2cm) (Extract code: g2cm), [HuggingFace](https://huggingface.co/guangkaixu/GenPercept), or [Rec Cloud Disk (To be uploaded)](). Please unzip the package and put the checkpoints under ```./weights/v1/```.
 
 Then, place images in the ```./input/$TASK_TYPE``` dictionary, and run the following script. The output depth will be saved in ```./output/$TASK_TYPE```. The ```$TASK_TYPE``` can be chosen from ```depth```, ```normal```, and ```dis```.
@@ -58,6 +58,74 @@ bash scripts/inference_dis.sh
 ```
 
 Thanks to our one-step perception paradigm, the inference process runs much faster. (Around 0.4s for each image on an A800 GPU card.)
+
+
+### Using torch.hub
+GenPercept models can be easily used with torch.hub for quick integration into your Python projects. Here's how to use the models for normal estimation, depth estimation, and segmentation:
+#### Normal Estimation
+```python
+import torch
+import cv2
+import numpy as np
+
+# Load the normal predictor model from torch hub
+normal_predictor = torch.hub.load("hugoycj/GenPercept-hub", "GenPercept_Normal", trust_repo=True)
+
+# Load the input image using OpenCV
+image = cv2.imread("path/to/your/image.jpg", cv2.IMREAD_COLOR)
+
+# Use the model to infer the normal map from the input image
+with torch.inference_mode():
+    normal = normal_predictor.infer_cv2(image)
+
+# Save the output normal map to a file
+cv2.imwrite("output_normal_map.png", normal)
+```
+
+#### Depth Estimation
+```python
+import torch
+import cv2
+
+# Load the depth predictor model from torch hub
+depth_predictor = torch.hub.load("hugoycj/GenPercept-hub", "GenPercept_Depth", trust_repo=True)
+
+# Load the input image using OpenCV
+image = cv2.imread("path/to/your/image.jpg", cv2.IMREAD_COLOR)
+
+# Use the model to infer the depth map from the input image
+with torch.inference_mode():
+    depth = depth_predictor.infer_cv2(image)
+
+# Save the output depth map to a file
+cv2.imwrite("output_depth_map.png", depth)
+```
+
+#### Segmentation
+```python
+import torch
+import cv2
+
+# Load the segmentation predictor model from torch hub
+seg_predictor = torch.hub.load("hugoycj/GenPercept-hub", "GenPercept_Segmentation", trust_repo=True)
+
+# Load the input image using OpenCV
+image = cv2.imread("path/to/your/image.jpg", cv2.IMREAD_COLOR)
+
+# Use the model to infer the segmentation map from the input image
+with torch.inference_mode():
+    segmentation = seg_predictor.infer_cv2(image)
+
+# Save the output segmentation map to a file
+cv2.imwrite("output_segmentation_map.png", segmentation)
+```
+
+## 📖 Recommanded Works
+
+- Marigold: Repurposing Diffusion-Based Image Generators for Monocular Depth Estimation. [arXiv](https://github.com/prs-eth/marigold), [GitHub](https://github.com/prs-eth/marigold).
+- GeoWizard: Unleashing the Diffusion Priors for 3D Geometry Estimation from a Single Image. [arXiv](https://arxiv.org/abs/2403.12013), [GitHub](https://github.com/fuxiao0719/GeoWizard).
+- FrozenRecon: Pose-free 3D Scene Reconstruction with Frozen Depth Models. [arXiv](https://arxiv.org/abs/2308.05733), [GitHub](https://github.com/aim-uofa/FrozenRecon).
+=======
 
 
 ## 🏅 Results in Paper
