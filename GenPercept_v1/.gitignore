@@ -1,0 +1,30 @@
+
+# ignore these folders
+checkpoint/
+data/
+output*
+temp/
+wandb/
+venv/
+cache/
+logs/
+datasets/
+**/.ipynb_checkpoints/
+.vscode/
+.idea
+build/
+dist/
+*__pycache__*
+.hypothesis/
+data*
+genpercept.egg-info
+weights
+
+# ignore these types
+*.pyc
+*.out
+*.log
+*.mexa64
+*.pdf
+*.tar
+

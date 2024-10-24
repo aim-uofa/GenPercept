@@ -1,0 +1,9 @@
+dataset:
+  vis:
+  - name: dis5k
+    disp_name: dis5k_vis
+    dir: dis5k
+    filenames: datasets/dis5k/dis5k/jsons_viz_10_768x768
+    resize_to_hw:
+    - 768
+    - 768

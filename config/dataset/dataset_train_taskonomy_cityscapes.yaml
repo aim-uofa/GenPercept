@@ -1,0 +1,19 @@
+dataset:
+  train:
+    name: mixed
+    prob_ls: [0.9, 0.1]
+    dataset_list:
+    - name: taskonomy
+      disp_name: taskonomy_train
+      dir: taskonomy
+      filenames: datasets/taskonomy/taskonomy_depth_sample_5w/jsons_filtered
+      resize_to_hw:
+      - 480
+      - 640
+    - name: cityscapes
+      disp_name: cityscapes_train
+      dir: cityscapes
+      filenames: datasets/cityscapes/cityscapes_depth_sample_4w/jsons_filtered
+      resize_to_hw:
+      - 480
+      - 640

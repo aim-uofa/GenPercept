@@ -1,0 +1,27 @@
+{
+    "do_normalize": true,
+    "do_pad": true,
+    "do_rescale": false,
+    "do_resize": true,
+    "ensure_multiple_of": 1,
+    "image_mean": [
+      123.675,
+      116.28,
+      103.53
+    ],
+    "image_processor_type": "DPTImageProcessor",
+    "image_std": [
+      58.395,
+      57.12,
+      57.375
+    ],
+    "keep_aspect_ratio": false,
+    "resample": 2,
+    "rescale_factor": 0.00392156862745098,
+    "size": {
+      "height": 392,
+      "width": 392
+    },
+    "size_divisor": 14
+  }
+  

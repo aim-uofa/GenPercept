@@ -1,0 +1,17 @@
+accelerate>=0.22.0
+diffusers>=0.20.1
+matplotlib>=3.8.2
+scipy>=1.11.4
+torch==2.0.1
+torchvision
+transformers>=4.32.1
+datasets>=2.15.0
+xformers==0.0.20
+jsonlines
+h5py
+opencv-python
+more_itertools
+plyfile
+peft
+tensorboard
+scikit-image

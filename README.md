@@ -1,6 +1,7 @@
 <div align="center">
 
-<h1> GenPercept: Diffusion Models Trained with Large Data Are Transferable Visual Models </h1>
+<h1> What Matters When Repurposing Diffusion Models for General Dense Perception Tasks?
+(GenPercept: Diffusion Models Trained with Large Data Are Transferable Visual Models)</h1>
 
 [Guangkai Xu](https://github.com/guangkaixu/), &nbsp; 
 [Yongtao Ge](https://yongtaoge.github.io/), &nbsp; 
@@ -13,7 +14,7 @@
 
 Zhejiang University
 
-### [HuggingFace (Space)](https://huggingface.co/spaces/guangkaixu/GenPercept) | [HuggingFace (Model)](https://huggingface.co/guangkaixu/GenPercept) | [arXiv](https://arxiv.org/abs/2403.06090)
+### [HuggingFace (Space)](https://huggingface.co/spaces/guangkaixu/GenPercept) | [HuggingFace (Model)](https://huggingface.co/guangkaixu/genpercept-models) | [arXiv](https://arxiv.org/abs/2403.06090)
 
 #### 🔥 Fine-tune diffusion models for perception tasks, and inference with only one step! ✈️
 
@@ -25,6 +26,8 @@ Zhejiang University
 
 
 ##  📢 News
+- 2024.10.24 Release latest training and inference code, which is armed with the [accelerate](https://github.com/huggingface/accelerate) library and based on [Marigold](https://github.com/prs-eth/marigold).
+- 2024.10.24 Release [arXiv v3 paper](https://arxiv.org/abs/2403.06090v3). We reorganize the structure of the paper and offer more detailed analysis.
 - 2024.4.30: Release checkpoint weights of surface normal and dichotomous image segmentation.
 - 2024.4.7:  Add [HuggingFace](https://huggingface.co/spaces/guangkaixu/GenPercept) App demo. 
 - 2024.4.6:  Release inference code and depth checkpoint weight of GenPercept in the [GitHub](https://github.com/aim-uofa/GenPercept) repo.
@@ -43,25 +46,35 @@ pip install -e .
 
 ## 🚀 Inference
 ### Using Command-line Scripts
-Download the pre-trained models ```genpercept_ckpt_v1.zip``` from [BaiduNetDisk](https://pan.baidu.com/s/1n6FlqrOTZqHX-F6OhcvNyA?pwd=g2cm) (Extract code: g2cm), [HuggingFace](https://huggingface.co/guangkaixu/GenPercept), or [Rec Cloud Disk (To be uploaded)](). Please unzip the package and put the checkpoints under ```./weights/v1/```.
+Download the [stable-diffusion-2-1](https://huggingface.co/stabilityai/stable-diffusion-2-1) and [our trained models](https://huggingface.co/guangkaixu/genpercept-models) (uploading...) from HuggingFace and put the checkpoints under ```./pretrained_weights/``` and ```./weights/```, respectively. You can download them with the script ```script/download_sd21.sh``` and ```script/download_weights.sh```, or download the weights of [depth](https://huggingface.co/guangkaixu/genpercept-depth), [normal](https://huggingface.co/guangkaixu/genpercept-normal), [Dichotomous Image Segmentation](https://huggingface.co/guangkaixu/genpercept-dis), [matting](https://huggingface.co/guangkaixu/genpercept-matting), [segmentation](https://huggingface.co/guangkaixu/genpercept-seg), [disparity](https://huggingface.co/guangkaixu/genpercept-disparity), [disparity_dpt_head](https://huggingface.co/guangkaixu/genpercept-disparity-dpt-head) seperately.
 
-Then, place images in the ```./input/$TASK_TYPE``` dictionary, and run the following script. The output depth will be saved in ```./output/$TASK_TYPE```. The ```$TASK_TYPE``` can be chosen from ```depth```, ```normal```, and ```dis```.
+Then, place images in the ```./input/``` dictionary. We offer demo images in [Huggingface](guangkaixu/genpercept-input-demo), and you can also download with the script ```script/download_sample_data.sh```. Then, run inference with scripts as below.
+
 ```bash
-sh scripts/inference_depth.sh
+# depth
+bash script/infer/main_paper/inference_genpercept_depth.sh
+# normal
+bash script/infer/main_paper/inference_genpercept_normal.sh
+# dis
+bash script/infer/main_paper/inference_genpercept_dis.sh
+# matting
+bash script/infer/main_paper/inference_genpercept_matting.sh
+# seg
+bash script/infer/main_paper/inference_genpercept_seg.sh
+# disparity
+bash script/infer/main_paper/inference_genpercept_disparity.sh
+# disparity_dpt_head
+bash script/infer/main_paper/inference_genpercept_disparity_dpt_head.sh
 ```
 
-For surface normal estimation and dichotomous image segmentation
-, run the following script:
-```bash
-bash scripts/inference_normal.sh
-bash scripts/inference_dis.sh
-```
-
-Thanks to our one-step perception paradigm, the inference process runs much faster. (Around 0.4s for each image on an A800 GPU card.)
+***Thanks to our one-step perception paradigm, the inference process runs much faster. (Around 0.4s for each image on an A800 GPU card.)***
 
 
 ### Using torch.hub
-GenPercept models can be easily used with torch.hub for quick integration into your Python projects. Here's how to use the models for normal estimation, depth estimation, and segmentation:
+
+TODO
+
+<!-- GenPercept models can be easily used with torch.hub for quick integration into your Python projects. Here's how to use the models for normal estimation, depth estimation, and segmentation:
 #### Normal Estimation
 ```python
 import torch
@@ -118,14 +131,17 @@ with torch.inference_mode():
 
 # Save the output segmentation map to a file
 cv2.imwrite("output_segmentation_map.png", segmentation)
-```
+``` -->
+
+## 🔧 Train
+
+TODO
 
 ## 📖 Recommanded Works
 
 - Marigold: Repurposing Diffusion-Based Image Generators for Monocular Depth Estimation. [arXiv](https://github.com/prs-eth/marigold), [GitHub](https://github.com/prs-eth/marigold).
 - GeoWizard: Unleashing the Diffusion Priors for 3D Geometry Estimation from a Single Image. [arXiv](https://arxiv.org/abs/2403.12013), [GitHub](https://github.com/fuxiao0719/GeoWizard).
 - FrozenRecon: Pose-free 3D Scene Reconstruction with Frozen Depth Models. [arXiv](https://arxiv.org/abs/2308.05733), [GitHub](https://github.com/aim-uofa/FrozenRecon).
-=======
 
 
 ## 🏅 Results in Paper
@@ -139,7 +155,7 @@ cv2.imwrite("output_segmentation_map.png", segmentation)
 ### Dichotomous Image Segmentation
 
 <div align="center">
-<img width="400" alt="image" src="figs/demo_dis.jpg">
+<img width="800" alt="image" src="figs/demo_dis.jpg">
 </div>
 
 ### Image Matting
@@ -148,10 +164,10 @@ cv2.imwrite("output_segmentation_map.png", segmentation)
 <img width="800" alt="image" src="figs/demo_matting.jpg">
 </div>
 
-### Human Pose Estimation
+### Image Segmentation
 
 <div align="center">
-<img width="800" alt="image" src="figs/demo_keypoint.jpg">
+<img width="800" alt="image" src="figs/demo_seg.jpg">
 </div>
 
 
@@ -164,16 +180,9 @@ For commercial use, please contact [Chunhua Shen](mailto:chhshen@gmail.com).
 ## 🎓 Citation
 ```
 @article{xu2024diffusion,
-  title={Diffusion Models Trained with Large Data Are Transferable Visual Models},
+  title={What Matters When Repurposing Diffusion Models for General Dense Perception Tasks?},
   author={Xu, Guangkai and Ge, Yongtao and Liu, Mingyu and Fan, Chengxiang and Xie, Kangyang and Zhao, Zhiyue and Chen, Hao and Shen, Chunhua},
   journal={arXiv preprint arXiv:2403.06090},
   year={2024}
 }
 ```
-
-## 📖 Related work
-
-- Marigold: Repurposing Diffusion-Based Image Generators for Monocular Depth Estimation. [arXiv](https://github.com/prs-eth/marigold), [GitHub](https://github.com/prs-eth/marigold).
-- GeoWizard: Unleashing the Diffusion Priors for 3D Geometry Estimation from a Single Image. [arXiv](https://arxiv.org/abs/2403.12013), [GitHub](https://github.com/fuxiao0719/GeoWizard).
-- FrozenRecon: Pose-free 3D Scene Reconstruction with Frozen Depth Models. [arXiv](https://arxiv.org/abs/2308.05733), [GitHub](https://github.com/aim-uofa/FrozenRecon).
-

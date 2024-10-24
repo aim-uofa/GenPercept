@@ -1,0 +1,9 @@
+dataset:
+  train:
+    name: dis5k
+    disp_name: dis5k_train
+    dir: dis5k
+    filenames: datasets/dis5k/dis5k/jsons
+    resize_to_hw:
+    - 480
+    - 640

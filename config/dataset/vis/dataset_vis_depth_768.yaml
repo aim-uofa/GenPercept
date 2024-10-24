@@ -1,0 +1,9 @@
+dataset:
+  vis:
+  - name: hypersim
+    disp_name: hypersim_vis
+    dir: hypersim
+    filenames: datasets/hypersim/hypersim/jsons_depth_normal_viz_sampled_10_from_train
+    resize_to_hw:
+    - 768
+    - 768

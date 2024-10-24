@@ -1,0 +1,9 @@
+dataset:
+  train:
+    name: hypersim
+    disp_name: hypersim_train
+    dir: hypersim
+    filenames: datasets/hypersim/hypersim/jsons_depth_normal_seg
+    resize_to_hw:
+    - 480
+    - 640

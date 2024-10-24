@@ -1,15 +1,26 @@
+# --------------------------------------------------------
+# What Matters When Repurposing Diffusion Models for General Dense Perception Tasks? (https://arxiv.org/abs/2403.06090)
+# Github source: https://github.com/aim-uofa/GenPercept
+# Copyright (c) 2024, Advanced Intelligent Machines (AIM)
+# Licensed under The BSD 2-Clause License [see LICENSE for details]
+# Author: Guangkai Xu (https://github.com/guangkaixu/)
+# --------------------------------------------------------------------------
+# This code is based on Marigold and diffusers codebases
+# https://github.com/prs-eth/marigold
+# https://github.com/huggingface/diffusers
+# --------------------------------------------------------
+# If you find this code useful, we kindly ask you to cite our paper in your work.
+# Please find bibtex at: https://github.com/aim-uofa/GenPercept#%EF%B8%8F-citation
+# More information about the method can be found at https://github.com/aim-uofa/GenPercept
+# --------------------------------------------------------------------------
+
+
 import matplotlib
 import numpy as np
 import torch
-from PIL import Image
-from torchvision import transforms
+from torchvision.transforms import InterpolationMode
+from torchvision.transforms.functional import resize
 
-def norm_to_rgb(norm):
-    # norm: (3, H, W), range from [-1, 1]
-    norm_rgb = ((norm + 1) * 0.5) * 255
-    norm_rgb = np.clip(norm_rgb, a_min=0, a_max=255)
-    norm_rgb = norm_rgb.astype(np.uint8)
-    return norm_rgb
 
 def colorize_depth_maps(
     depth_map, min_depth, max_depth, cmap="Spectral", valid_mask=None
@@ -20,9 +31,9 @@ def colorize_depth_maps(
     assert len(depth_map.shape) >= 2, "Invalid dimension"
 
     if isinstance(depth_map, torch.Tensor):
-        depth = depth_map.detach().clone().squeeze().numpy()
+        depth = depth_map.detach().squeeze().numpy()
     elif isinstance(depth_map, np.ndarray):
-        depth = np.squeeze(depth_map.copy())
+        depth = depth_map.copy().squeeze()
     # reshape to [ (B,) H, W ]
     if depth.ndim < 3:
         depth = depth[np.newaxis, :, :]
@@ -36,7 +47,7 @@ def colorize_depth_maps(
     if valid_mask is not None:
         if isinstance(depth_map, torch.Tensor):
             valid_mask = valid_mask.detach().numpy()
-        valid_mask = np.squeeze(valid_mask)  # [H, W] or [B, H, W]
+        valid_mask = valid_mask.squeeze()  # [H, W] or [B, H, W]
         if valid_mask.ndim < 3:
             valid_mask = valid_mask[np.newaxis, np.newaxis, :, :]
         else:
@@ -61,18 +72,28 @@ def chw2hwc(chw):
     return hwc
 
 
-def resize_max_res(img: Image.Image, max_edge_resolution: int) -> Image.Image:
+def resize_max_res(
+    img: torch.Tensor,
+    max_edge_resolution: int,
+    resample_method: InterpolationMode = InterpolationMode.BILINEAR,
+) -> torch.Tensor:
     """
-    Resize image to limit maximum edge length while keeping aspect ratio
+    Resize image to limit maximum edge length while keeping aspect ratio.
 
     Args:
-        img (Image.Image): Image to be resized
-        max_edge_resolution (int): Maximum edge length (px).
+        img (`torch.Tensor`):
+            Image tensor to be resized. Expected shape: [B, C, H, W]
+        max_edge_resolution (`int`):
+            Maximum edge length (pixel).
+        resample_method (`PIL.Image.Resampling`):
+            Resampling method used to resize images.
 
     Returns:
-        Image.Image: Resized image.
+        `torch.Tensor`: Resized image.
     """
-    original_width, original_height = img.size
+    assert 4 == img.dim(), f"Invalid input shape {img.shape}"
+
+    original_height, original_width = img.shape[-2:]
     downscale_factor = min(
         max_edge_resolution / original_width, max_edge_resolution / original_height
     )
@@ -80,93 +101,26 @@ def resize_max_res(img: Image.Image, max_edge_resolution: int) -> Image.Image:
     new_width = int(original_width * downscale_factor)
     new_height = int(original_height * downscale_factor)
 
-    resized_img = img.resize((new_width, new_height))
+    resized_img = resize(img, (new_height, new_width), resample_method, antialias=True)
     return resized_img
 
-def resize_max_res_integer_16(img: Image.Image, max_edge_resolution: int) -> Image.Image:
-    """
-    Resize image to limit maximum edge length while keeping aspect ratio
 
-    Args:
-        img (Image.Image): Image to be resized
-        max_edge_resolution (int): Maximum edge length (px).
-
-    Returns:
-        Image.Image: Resized image.
-    """
-    original_width, original_height = img.size
-    downscale_factor = min(
-        max_edge_resolution / original_width, max_edge_resolution / original_height
-    )
-
-    new_width = int(original_width * downscale_factor) // 16 * 16 # make sure it is integer multiples of 16, used for pixart
-    new_height = int(original_height * downscale_factor) // 16 * 16 # make sure it is integer multiples of 16, used for pixart
-
-    resized_img = img.resize((new_width, new_height))
-    return resized_img
-
-def resize_res(img: Image.Image, max_edge_resolution: int) -> Image.Image:
-    """
-    Resize image to limit maximum edge length while keeping aspect ratio
-
-    Args:
-        img (Image.Image): Image to be resized
-        max_edge_resolution (int): Maximum edge length (px).
-
-    Returns:
-        Image.Image: Resized image.
-    """
-
-    resized_img = img.resize((max_edge_resolution, max_edge_resolution))
-    return resized_img
-
-class ResizeLongestEdge:
-    def __init__(self, max_size, interpolation=transforms.InterpolationMode.BILINEAR):
-        self.max_size = max_size
-        self.interpolation = interpolation
-
-    def __call__(self, img):
-
-        scale = self.max_size / max(img.width, img.height)
-        new_size = (int(img.height * scale), int(img.width * scale))
-
-        return transforms.functional.resize(img, new_size, self.interpolation)
-
-class ResizeShortestEdge:
-    def __init__(self, min_size, interpolation=transforms.InterpolationMode.BILINEAR):
-        self.min_size = min_size
-        self.interpolation = interpolation
-
-    def __call__(self, img):
-
-        scale = self.min_size / min(img.width, img.height)
-        new_size = (int(img.height * scale), int(img.width * scale))
-
-        return transforms.functional.resize(img, new_size, self.interpolation)
-
-class ResizeHard:
-    def __init__(self, size, interpolation=transforms.InterpolationMode.BILINEAR):
-        self.size = size
-        self.interpolation = interpolation
-
-    def __call__(self, img):
-
-        new_size = (int(self.size), int(self.size))
-
-        return transforms.functional.resize(img, new_size, self.interpolation)
-
-
-class ResizeLongestEdgeInteger:
-    def __init__(self, max_size, interpolation=transforms.InterpolationMode.BILINEAR, integer=16):
-        self.max_size = max_size
-        self.interpolation = interpolation
-        self.integer = integer
-
-    def __call__(self, img):
-
-        scale = self.max_size / max(img.width, img.height)
-        new_size_h = int(img.height * scale) // self.integer * self.integer
-        new_size_w = int(img.width * scale) // self.integer * self.integer
-        new_size = (new_size_h, new_size_w)
-
-        return transforms.functional.resize(img, new_size, self.interpolation)
+def get_tv_resample_method(method_str: str) -> InterpolationMode:
+    try:
+        resample_method_dict = {
+            "bilinear": InterpolationMode.BILINEAR,
+            "bicubic": InterpolationMode.BICUBIC,
+            "nearest": InterpolationMode.NEAREST_EXACT,
+            "nearest-exact": InterpolationMode.NEAREST_EXACT,
+        }
+    except:
+        resample_method_dict = {
+            "bilinear": InterpolationMode.BILINEAR,
+            "bicubic": InterpolationMode.BICUBIC,
+            "nearest": InterpolationMode.NEAREST,
+        }
+    resample_method = resample_method_dict.get(method_str, None)
+    if resample_method is None:
+        raise ValueError(f"Unknown resampling method: {resample_method}")
+    else:
+        return resample_method

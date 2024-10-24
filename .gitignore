@@ -1,24 +1,21 @@
 
 # ignore these folders
-checkpoint/
-data/
-output*
-temp/
-wandb/
-venv/
-cache/
-logs/
-datasets/
+/checkpoint
+/data
+/input*
+/output*
+/temp
+/wandb
+/venv
+/cache
+/datasets*
+/prs-eth
+/script/batch_train
+/script/train_debug
+
 **/.ipynb_checkpoints/
 .vscode/
 .idea
-build/
-dist/
-*__pycache__*
-.hypothesis/
-data*
-genpercept.egg-info
-weights
 
 # ignore these types
 *.pyc
@@ -27,4 +24,3 @@ weights
 *.mexa64
 *.pdf
 *.tar
-

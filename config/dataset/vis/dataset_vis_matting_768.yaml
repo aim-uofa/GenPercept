@@ -1,0 +1,9 @@
+dataset:
+  vis:
+  - name: p3m10k
+    disp_name: p3m10k_vis
+    dir: p3m10k
+    filenames: datasets/p3m10k/P3M-10k/jsons_viz
+    resize_to_hw:
+    - 768
+    - 768
