@@ -1,6 +1,6 @@
 <div align="center">
 
-<h1> What Matters When Repurposing Diffusion Models for General Dense Perception Tasks?
+<h1> What Matters When Repurposing Diffusion Models for General Dense Perception Tasks?<br>
 (GenPercept: Diffusion Models Trained with Large Data Are Transferable Visual Models)</h1>
 
 [Guangkai Xu](https://github.com/guangkaixu/), &nbsp; 
