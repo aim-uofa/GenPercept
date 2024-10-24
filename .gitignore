@@ -12,6 +12,8 @@
 /prs-eth
 /script/batch_train
 /script/train_debug
+/pretrained_weights
+/weights
 
 **/.ipynb_checkpoints/
 .vscode/
