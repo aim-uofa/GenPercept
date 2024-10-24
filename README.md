@@ -149,13 +149,13 @@ TODO
 ### Depth and Surface Normal
 
 <div align="center">
-<img width="800" alt="image" src="figs/demo_depth_normal.jpg">
+<img width="800" alt="image" src="figs/demo_depth_normal_new.jpg">
 </div>
 
 ### Dichotomous Image Segmentation
 
 <div align="center">
-<img width="800" alt="image" src="figs/demo_dis.jpg">
+<img width="800" alt="image" src="figs/demo_dis_new.jpg">
 </div>
 
 ### Image Matting
