@@ -37,6 +37,23 @@ Zhejiang University
 - 2024.3.10: Release [arXiv v1 paper](https://arxiv.org/abs/2403.06090v1).
 
 
+## 📚 Download Resource Summary
+
+ - Space-Huggingface demo: https://huggingface.co/spaces/guangkaixu/GenPercept.
+ - Models-all (including ablation study): https://huggingface.co/guangkaixu/genpercept-exps.
+ - Models-main-paper: https://huggingface.co/guangkaixu/genpercept-models.
+ - Models-depth: https://huggingface.co/guangkaixu/genpercept-depth.
+ - Models-normal: https://huggingface.co/guangkaixu/genpercept-normal.
+ - Models-dis: https://huggingface.co/guangkaixu/genpercept-dis.
+ - Models-matting: https://huggingface.co/guangkaixu/genpercept-matting.
+ - Models-seg: https://huggingface.co/guangkaixu/genpercept-seg.
+ - Models-disparity: https://huggingface.co/guangkaixu/genpercept-disparity.
+ - Models-disparity-dpt-head: https://huggingface.co/guangkaixu/genpercept-disparity-dpt-head.
+ - Datasets-input demo: https://huggingface.co/datasets/guangkaixu/genpercept-input-demo.
+ - Datasets-evaluation data: https://huggingface.co/datasets/guangkaixu/genpercept_datasets_eval.
+ - Datasets-evaluation results: https://huggingface.co/datasets/guangkaixu/genpercept-exps-eval.
+
+
 ##  🖥️ Dependencies
 
 ```bash
@@ -53,21 +70,32 @@ Download the [stable-diffusion-2-1](https://huggingface.co/stabilityai/stable-di
 Then, place images in the ```./input/``` dictionary. We offer demo images in [Huggingface](guangkaixu/genpercept-input-demo), and you can also download with the script ```script/download_sample_data.sh```. Then, run inference with scripts as below.
 
 ```bash
-# depth
-bash script/infer/main_paper/inference_genpercept_depth.sh
-# normal
-bash script/infer/main_paper/inference_genpercept_normal.sh
-# dis
-bash script/infer/main_paper/inference_genpercept_dis.sh
-# matting
-bash script/infer/main_paper/inference_genpercept_matting.sh
-# seg
-bash script/infer/main_paper/inference_genpercept_seg.sh
-# disparity
-bash script/infer/main_paper/inference_genpercept_disparity.sh
-# disparity_dpt_head
-bash script/infer/main_paper/inference_genpercept_disparity_dpt_head.sh
+# Depth
+source script/infer/main_paper/inference_genpercept_depth.sh
+# Normal
+source script/infer/main_paper/inference_genpercept_normal.sh
+# Dis
+source script/infer/main_paper/inference_genpercept_dis.sh
+# Matting
+source script/infer/main_paper/inference_genpercept_matting.sh
+# Seg
+source script/infer/main_paper/inference_genpercept_seg.sh
+# Disparity
+source script/infer/main_paper/inference_genpercept_disparity.sh
+# Disparity_dpt_head
+source script/infer/main_paper/inference_genpercept_disparity_dpt_head.sh
 ```
+
+If you would like to change the input folder path, unet path, and output path, input these parameters like:
+```bash
+# Assign a values
+input_rgb_dir=...
+unet=...
+output_dir=...
+# Take depth as example
+source script/infer/main_paper/inference_genpercept_depth.sh $input_rgb_dir $unet $output_dir
+```
+For a general inference script, please see ```script/infer/inference_general.sh``` in detail.
 
 ***Thanks to our one-step perception paradigm, the inference process runs much faster. (Around 0.4s for each image on an A800 GPU card.)***
 
@@ -135,9 +163,45 @@ with torch.inference_mode():
 cv2.imwrite("output_segmentation_map.png", segmentation)
 ``` -->
 
-## 🔧 Train
+## 🔥 Train
 
-TODO
+NOTE: We implement the training with the [accelerate](https://github.com/huggingface/accelerate) library, but find a worse training accuracy with multi gpus compared to one gpu, with the same training ```effective_batch_size``` and ```max_iter```. Your assistance in resolving this issue would be greatly appreciated. Thank you very much!
+
+### Preparation
+
+Datasets: TODO
+
+Place training datasets unser ```datasets/```
+
+Download the [stable-diffusion-2-1](https://huggingface.co/stabilityai/stable-diffusion-2-1) from HuggingFace and put the checkpoints under ```./pretrained_weights/```. You can also download with the script ```script/download_sd21.sh```.
+
+
+### Start Training
+
+The reproduction training scripts in [arxiv v3 paper](https://arxiv.org/abs/2403.06090v3) is released in ```script/```, whose configs are stored in ```config/```. Models with ```max_train_batch_size > 2``` are trained on an H100 and ```max_train_batch_size <= 2``` on an RTX 4090. Run the train script:
+
+```bash
+# Take depth training of main paper as an example
+source script/train_sd21_main_paper/sd21_train_accelerate_genpercept_1card_ensure_depth_bs8_per_accu_pixel_mse_ssi_grad_loss.sh
+```
+
+## 🎖️ Eval
+
+### Preparation
+
+1. Download [evaluation datasets](https://huggingface.co/datasets/guangkaixu/genpercept_eval/tree/main) and place them in ```datasets_eval```.
+2. Download [our trained models](https://huggingface.co/guangkaixu/genpercept-exps) of main paper and ablation study in Section 3 of [arxiv v3 paper](https://arxiv.org/abs/2403.06090v3), and place them in ```weights/genpercept-exps```.
+
+### Start Evaluation
+
+The evaluation scripts are stored in ```script/eval_sd21```.
+
+```bash
+# Take "ensemble1 + step1" as an example
+source script/eval_sd21/eval_ensemble1_step1/0_infer_eval_all.sh
+```
+
+
 
 ## 📖 Recommanded Works
 
@@ -146,7 +210,7 @@ TODO
 - FrozenRecon: Pose-free 3D Scene Reconstruction with Frozen Depth Models. [arXiv](https://arxiv.org/abs/2308.05733), [GitHub](https://github.com/aim-uofa/FrozenRecon).
 
 
-## 🏅 Results in Paper
+## 👍 Results in Paper
 
 ### Depth and Surface Normal
 
