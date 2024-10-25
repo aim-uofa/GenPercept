@@ -27,6 +27,7 @@ Zhejiang University
 
 
 ##  📢 News
+- 2024.10.25 Update GenPercept [Huggingface]((https://huggingface.co/spaces/guangkaixu/GenPercept)) App demo.
 - 2024.10.24 Release latest training and inference code, which is armed with the [accelerate](https://github.com/huggingface/accelerate) library and based on [Marigold](https://github.com/prs-eth/marigold).
 - 2024.10.24 Release [arXiv v3 paper](https://arxiv.org/abs/2403.06090v3). We reorganize the structure of the paper and offer more detailed analysis.
 - 2024.4.30: Release checkpoint weights of surface normal and dichotomous image segmentation.
@@ -47,7 +48,7 @@ pip install -e .
 
 ## 🚀 Inference
 ### Using Command-line Scripts
-Download the [stable-diffusion-2-1](https://huggingface.co/stabilityai/stable-diffusion-2-1) and [our trained models](https://huggingface.co/guangkaixu/genpercept-models) (uploading...) from HuggingFace and put the checkpoints under ```./pretrained_weights/``` and ```./weights/```, respectively. You can download them with the script ```script/download_sd21.sh``` and ```script/download_weights.sh```, or download the weights of [depth](https://huggingface.co/guangkaixu/genpercept-depth), [normal](https://huggingface.co/guangkaixu/genpercept-normal), [Dichotomous Image Segmentation](https://huggingface.co/guangkaixu/genpercept-dis), [matting](https://huggingface.co/guangkaixu/genpercept-matting), [segmentation](https://huggingface.co/guangkaixu/genpercept-seg), [disparity](https://huggingface.co/guangkaixu/genpercept-disparity), [disparity_dpt_head](https://huggingface.co/guangkaixu/genpercept-disparity-dpt-head) seperately.
+Download the [stable-diffusion-2-1](https://huggingface.co/stabilityai/stable-diffusion-2-1) and [our trained models](https://huggingface.co/guangkaixu/genpercept-models) from HuggingFace and put the checkpoints under ```./pretrained_weights/``` and ```./weights/```, respectively. You can download them with the script ```script/download_sd21.sh``` and ```script/download_weights.sh```, or download the weights of [depth](https://huggingface.co/guangkaixu/genpercept-depth), [normal](https://huggingface.co/guangkaixu/genpercept-normal), [Dichotomous Image Segmentation](https://huggingface.co/guangkaixu/genpercept-dis), [matting](https://huggingface.co/guangkaixu/genpercept-matting), [segmentation](https://huggingface.co/guangkaixu/genpercept-seg), [disparity](https://huggingface.co/guangkaixu/genpercept-disparity), [disparity_dpt_head](https://huggingface.co/guangkaixu/genpercept-disparity-dpt-head) seperately.
 
 Then, place images in the ```./input/``` dictionary. We offer demo images in [Huggingface](guangkaixu/genpercept-input-demo), and you can also download with the script ```script/download_sample_data.sh```. Then, run inference with scripts as below.
 
