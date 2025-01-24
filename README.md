@@ -1,6 +1,6 @@
 <div align="center">
 
-<h1> What Matters When Repurposing Diffusion Models for General Dense Perception Tasks?</h1>
+<h1> [ICLR2025] What Matters When Repurposing Diffusion Models for General Dense Perception Tasks?</h1>
 
 Former Title: "Diffusion Models Trained with Large Data Are Transferable Visual Models"
 
@@ -27,9 +27,10 @@ Zhejiang University
 
 
 ##  📢 News
-- 2024.10.25 Update GenPercept [Huggingface]((https://huggingface.co/spaces/guangkaixu/GenPercept)) App demo.
-- 2024.10.24 Release latest training and inference code, which is armed with the [accelerate](https://github.com/huggingface/accelerate) library and based on [Marigold](https://github.com/prs-eth/marigold).
-- 2024.10.24 Release [arXiv v3 paper](https://arxiv.org/abs/2403.06090v3). We reorganize the structure of the paper and offer more detailed analysis.
+- 2025.1.24: 🎉🎉🎉 GenPercept has been accepted by ICLR 2025. 🎉🎉🎉
+- 2024.10.25: Update GenPercept [Huggingface]((https://huggingface.co/spaces/guangkaixu/GenPercept)) App demo.
+- 2024.10.24: Release latest training and inference code, which is armed with the [accelerate](https://github.com/huggingface/accelerate) library and based on [Marigold](https://github.com/prs-eth/marigold).
+- 2024.10.24: Release [arXiv v3 paper](https://arxiv.org/abs/2403.06090v3). We reorganize the structure of the paper and offer more detailed analysis.
 - 2024.4.30: Release checkpoint weights of surface normal and dichotomous image segmentation.
 - 2024.4.7:  Add [HuggingFace](https://huggingface.co/spaces/guangkaixu/GenPercept) App demo. 
 - 2024.4.6:  Release inference code and depth checkpoint weight of GenPercept in the [GitHub](https://github.com/aim-uofa/GenPercept) repo.
