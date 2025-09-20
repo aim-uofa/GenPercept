@@ -172,7 +172,7 @@ NOTE: We implement the training with the [accelerate](https://github.com/hugging
 
 Datasets: TODO
 
-Place training datasets unser ```datasets/```
+Place training datasets under ```datasets/```
 
 Download the [stable-diffusion-2-1](https://huggingface.co/stabilityai/stable-diffusion-2-1) from HuggingFace and put the checkpoints under ```./pretrained_weights/```. You can also download with the script ```script/download_sd21.sh```.
 
